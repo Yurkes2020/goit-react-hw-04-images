@@ -113,7 +113,7 @@ export class App extends Component {
           />
         )}
         {this.state.hits.length >= 12 && (
-          <Load loadMore={this.onClickButtonLoadMore} text={'Load More'} />
+          <Load loadMore={this.onClickButtonLoadMore}>Load More</Load>
         )}
       </Conteiner>
     );
