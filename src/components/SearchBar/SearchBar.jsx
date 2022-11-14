@@ -1,40 +1,40 @@
 import PropTypes from 'prop-types';
-import { Component } from 'react';
+import Cat from 'components/Image/cat.png';
+import { useState } from 'react';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { FcSearch } from 'react-icons/fc';
 import { SearchBar, Form, Button, Field } from './SearchBar.styled';
 
-export class SearchForm extends Component {
-  state = {
-    searchQuery: '',
+export const SearchForm = ({ submit }) => {
+  const [searchQuery, setSearchQuery] = useState('');
+  const handleSearchChange = event => {
+    setSearchQuery(event.currentTarget.value.toLowerCase());
   };
 
-  static propTypes = {
-    onSubmit: PropTypes.func.isRequired,
-  };
-
-  handleSearchChange = event => {
-    this.setState({ searchQuery: event.currentTarget.value.toLowerCase() });
-  };
-
-  handleSubmit = event => {
+  const handleSubmit = event => {
     event.preventDefault();
-    if (this.state.searchQuery.trim() === '') {
-      return alert('Please enter a search query');
+    if (searchQuery.trim() === '') {
+      return toast.warn('Введите имя для поиска картинок', {
+        icon: () => <img src={Cat} alt="cat" />,
+        autoClose: 2000,
+        theme: 'dark',
+      });
     }
-    this.props.onSubmit(this.state.searchQuery);
-    this.setState({ searchQuery: '' });
+    submit(searchQuery);
+    setSearchQuery('');
   };
 
-  render() {
-    return (
+  return (
+    <>
       <SearchBar>
-        <Form onSubmit={this.handleSubmit}>
+        <Form onSubmit={handleSubmit}>
           <Button type="submit">
             <FcSearch />
           </Button>
           <Field
-            value={this.state.searchQuery}
-            onChange={this.handleSearchChange}
+            value={searchQuery}
+            onChange={handleSearchChange}
             type="text"
             autocomplete="off"
             autoFocus
@@ -42,6 +42,11 @@ export class SearchForm extends Component {
           />
         </Form>
       </SearchBar>
-    );
-  }
-}
+      <ToastContainer />
+    </>
+  );
+};
+
+SearchBar.propTypes = {
+  submit: PropTypes.func,
+};

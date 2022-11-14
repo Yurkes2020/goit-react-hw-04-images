@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import None from 'components/Image/none.gif';
 import { Modal } from './Modal/Modal';
 import { Load } from './Button/Button';
 import { Loader } from 'components/Loader/Loader';
@@ -15,12 +16,11 @@ export const App = () => {
   const [tags, setTags] = useState('');
   const [page, setPage] = useState(1);
   const [status, setStatus] = useState('idle');
-  const [error, setError] = useState(null);
+  const [, setError] = useState();
   const [showLoader, setShowLoader] = useState(false);
 
   useEffect(() => {
-    if (searchQuery === '') return;
-    getImages(searchQuery, page);
+    !searchQuery ? setStatus('idle') : getImages(searchQuery, page);
   }, [searchQuery, page]);
 
   const getImages = (searchQuery, page) => {
@@ -73,14 +73,15 @@ export const App = () => {
 
   return (
     <Conteiner>
-      <SearchForm onSubmit={handleFormSubmit} />
+      <SearchForm submit={handleFormSubmit} />
       {status === 'idle' && (
         <p style={{ textAlign: 'center' }}>Введите имя запроса</p>
       )}
 
       {status === 'rejected' && (
         <p style={{ textAlign: 'center' }}>
-          По Вашему запросу ничего не найдено
+          Я ничего не нашел
+          <img src={None} alt="none" style={{ margin: 'auto' }}></img>
         </p>
       )}
       {status === 'resolved' && <Gallery images={hits} modal={openModal} />}
