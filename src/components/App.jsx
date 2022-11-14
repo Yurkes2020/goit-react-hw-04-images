@@ -19,6 +19,7 @@ export const App = () => {
   const [showLoader, setShowLoader] = useState(false);
 
   useEffect(() => {
+    if (searchQuery === '') return;
     getImages(searchQuery, page);
   }, [searchQuery, page]);
 
