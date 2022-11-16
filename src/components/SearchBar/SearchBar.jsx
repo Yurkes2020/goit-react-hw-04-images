@@ -8,6 +8,7 @@ import { SearchBar, Form, Button, Field } from './SearchBar.styled';
 
 export const SearchForm = ({ submit }) => {
   const [searchQuery, setSearchQuery] = useState('');
+
   const handleSearchChange = event => {
     setSearchQuery(event.currentTarget.value.toLowerCase());
   };

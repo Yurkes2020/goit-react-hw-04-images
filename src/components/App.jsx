@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import None from 'components/Image/none.gif';
 import { Modal } from './Modal/Modal';
 import { Load } from './Button/Button';
@@ -7,7 +7,6 @@ import { SearchForm } from './SearchBar/SearchBar';
 import { Gallery } from 'components/ImageGallery/ImageGallery';
 import { fetchArticlesWithQuery } from 'components/Api/Api';
 import { Conteiner } from './App.styled';
-import { useEffect } from 'react';
 
 export const App = () => {
   const [hits, setHits] = useState([]);
@@ -16,7 +15,7 @@ export const App = () => {
   const [tags, setTags] = useState('');
   const [page, setPage] = useState(1);
   const [status, setStatus] = useState('idle');
-  const [, setError] = useState();
+  const [, setError] = useState(null);
   const [showLoader, setShowLoader] = useState(false);
 
   useEffect(() => {
